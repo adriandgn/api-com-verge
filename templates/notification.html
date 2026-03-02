@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8" />
+  <title>New registration</title>
+  <style>
+    body {
+      font-family: "Courier New", Courier, monospace;
+      line-height: 1.5;
+      color: #111;
+      background: #f6f6f6;
+    }
+
+    .container {
+      max-width: 700px;
+      margin: 24px auto;
+      padding: 0;
+      background: #ffffff;
+      border: 3px solid #111;
+    }
+
+    .header {
+      background: #f2f4f7;
+      padding: 20px 24px;
+      border-bottom: 3px solid #111;
+    }
+
+    .header h2 {
+      margin: 0;
+      font-size: 20px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    .content {
+      padding: 24px;
+    }
+
+    .meta {
+      border: 3px solid #111;
+      padding: 12px;
+      background: #e7fad4;
+      margin-bottom: 16px;
+    }
+
+    pre {
+      background: #fff5d6;
+      padding: 12px;
+      border: 3px solid #111;
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <div class="header">
+      <h2>New registration received</h2>
+    </div>
+    <div class="content">
+      <div class="meta">
+        <strong>Profile:</strong> {{ profile }}
+      </div>
+      <strong>Data:</strong>
+      <pre>{{ data }}</pre>
+    </div>
+  </div>
+</body>
+
+</html>
