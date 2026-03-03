@@ -3,11 +3,13 @@ import logging
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
+from fastapi_crons import Crons
 from slowapi import _rate_limit_exceeded_handler
 from slowapi.errors import RateLimitExceeded
 
 from api.routes.registrations import router as registrations_router
 from api.health_checks import check_db, check_smtp
+from api.keep_alive import run_keep_alive
 from api.rate_limit import limiter
 from api.settings import get_settings
 
@@ -21,6 +23,8 @@ app = FastAPI(
     docs_url="/docs",
     redoc_url="/redoc"
 )
+
+crons = Crons(app)
 
 app.add_middleware(
     CORSMiddleware,
@@ -48,6 +52,20 @@ async def health_extended():
 
 
 app.include_router(registrations_router, prefix="/api", tags=["registrations"])
+
+
+@app.get("/api/keep-alive")
+async def keep_alive():
+    try:
+        await run_keep_alive()
+    except Exception:
+        logging.getLogger(__name__).exception("Keep-alive query failed")
+    return {"status": "alive"}
+
+
+@crons.cron("0 */2 * * *")
+async def keep_alive_job():
+    await keep_alive()
 
 
 @app.exception_handler(Exception)

@@ -6,3 +6,4 @@ fastapi-mail==1.4.1
 python-multipart==0.0.9
 uvicorn==0.30.6
 slowapi==0.1.9
+fastapi-crons
