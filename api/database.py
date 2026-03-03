@@ -39,3 +39,23 @@ async def get_registrations(profile: str | None = None, limit: int = 100):
         query = query.eq("profile", profile)
     result = query.order("created_at", desc=True).limit(limit).execute()
     return result.data
+
+
+async def insert_sponsor_inquiry(
+    data: dict,
+    ip: str | None = None,
+    user_agent: str | None = None
+):
+    supabase = get_supabase_client()
+    result = (
+        supabase.table("sponsor_inquiries")
+        .insert(
+            {
+                **data,
+                "ip_address": ip,
+                "user_agent": user_agent
+            }
+        )
+        .execute()
+    )
+    return result.data[0] if result.data else None

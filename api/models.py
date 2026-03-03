@@ -4,6 +4,20 @@ from typing import List, Literal, Optional, Union, Annotated
 from pydantic import BaseModel, EmailStr, Field, field_validator
 
 
+class SponsorInquiryPayload(BaseModel):
+    name: str = Field(..., min_length=2, max_length=100)
+    company: str = Field(..., min_length=2, max_length=120)
+    phone: Optional[str] = Field(None, max_length=50)
+    email: EmailStr
+    message: str = Field(..., min_length=10, max_length=2000)
+
+
+class SponsorInquiryResponse(BaseModel):
+    success: bool
+    message: str
+    sponsor_id: Optional[str] = None
+
+
 class CreatorRegistration(BaseModel):
     profile: Literal["creator"]
     name: str = Field(..., min_length=2, max_length=100)

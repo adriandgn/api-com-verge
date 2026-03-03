@@ -52,3 +52,30 @@ async def send_admin_notification(profile: str, data: dict) -> None:
     fm = FastMail(conf)
     await fm.send_message(message, template_name="notification.html")
     logger.info("Admin notification sent to %s for profile %s", settings.admin_email, profile)
+
+
+async def send_sponsor_confirmation_email(email: str, name: str) -> None:
+    conf = get_email_config()
+    message = MessageSchema(
+        subject="Thanks for your interest in sponsoring COM/VERGENCE",
+        recipients=[email],
+        template_body={"name": name},
+        subtype=MessageType.html
+    )
+    fm = FastMail(conf)
+    await fm.send_message(message, template_name="sponsor_confirmation.html")
+    logger.info("Sponsor confirmation email sent to %s", email)
+
+
+async def send_sponsor_admin_notification(data: dict) -> None:
+    conf = get_email_config()
+    settings = get_settings()
+    message = MessageSchema(
+        subject="New sponsor inquiry",
+        recipients=[settings.admin_email],
+        template_body={"data": data},
+        subtype=MessageType.html
+    )
+    fm = FastMail(conf)
+    await fm.send_message(message, template_name="sponsor_notification.html")
+    logger.info("Sponsor admin notification sent to %s", settings.admin_email)

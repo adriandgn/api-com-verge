@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+  <body style="font-family: Arial, sans-serif; line-height: 1.5;">
+    <h3>New sponsor inquiry</h3>
+    <ul>
+      <li><strong>Name:</strong> {{ data.name }}</li>
+      <li><strong>Company:</strong> {{ data.company }}</li>
+      <li><strong>Email:</strong> {{ data.email }}</li>
+      <li><strong>Phone:</strong> {{ data.phone or "-" }}</li>
+    </ul>
+    <p><strong>Message</strong></p>
+    <p style="white-space: pre-wrap;">{{ data.message }}</p>
+  </body>
+</html>
+

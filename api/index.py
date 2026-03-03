@@ -8,6 +8,7 @@ from slowapi import _rate_limit_exceeded_handler
 from slowapi.errors import RateLimitExceeded
 
 from api.routes.registrations import router as registrations_router
+from api.routes.sponsors import router as sponsors_router
 from api.health_checks import check_db, check_smtp
 from api.keep_alive import run_keep_alive
 from api.rate_limit import limiter
@@ -52,6 +53,7 @@ async def health_extended():
 
 
 app.include_router(registrations_router, prefix="/api", tags=["registrations"])
+app.include_router(sponsors_router, prefix="/api", tags=["sponsors"])
 
 
 @app.get("/api/keep-alive")

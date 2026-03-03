@@ -67,7 +67,16 @@ def test_create_creator_registration_ok():
 
 
 def test_invalid_profile_in_path():
-    resp = client.post("/api/registrations/invalid", json={})
+    payload = {
+        "profile": "creator",
+        "name": "Test Creator",
+        "email": "test@example.com",
+        "studio_brand": "Test Studio",
+        "city": "Berlin",
+        "practice_description": "This is a test registration",
+        "podcast_interest": False
+    }
+    resp = client.post("/api/registrations/invalid", json=payload)
     assert resp.status_code == 400
 
 
@@ -75,6 +84,7 @@ def test_mismatched_profile_body_vs_path():
     payload = {
         "profile": "expert",
         "name": "Test Expert",
+        "email": "test@example.com",
         "field_expertise": "Testing",
         "city": "Berlin",
         "bio_links": "https://example.com"
