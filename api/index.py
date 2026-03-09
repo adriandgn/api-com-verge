@@ -56,18 +56,25 @@ app.include_router(registrations_router, prefix="/api", tags=["registrations"])
 app.include_router(sponsors_router, prefix="/api", tags=["sponsors"])
 
 
+@app.get("/api/keepalive")
+async def keepalive():
+    print("[keepalive] endpoint /api/keepalive triggered")
+    result = await run_keep_alive()
+    if not result.get("ok"):
+        print(f"[keepalive] endpoint completed with error: {result}")
+    return {"status": "ok", **result}
+
+
 @app.get("/api/keep-alive")
-async def keep_alive():
-    try:
-        await run_keep_alive()
-    except Exception:
-        logging.getLogger(__name__).exception("Keep-alive query failed")
-    return {"status": "alive"}
+async def keep_alive_legacy():
+    print("[keepalive] legacy endpoint /api/keep-alive triggered")
+    return await keepalive()
 
 
-@crons.cron("0 */2 * * *")
+@crons.cron("*/30 * * * *")
 async def keep_alive_job():
-    await keep_alive()
+    print("[keepalive] cron trigger every 30 minutes")
+    await keepalive()
 
 
 @app.exception_handler(Exception)
